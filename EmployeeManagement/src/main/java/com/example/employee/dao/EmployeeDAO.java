@@ -2,11 +2,10 @@ package com.example.employee.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.example.employee.entity.Employee;
 
-public interface EmployeeDAO {
-	public List<Employee> getEmployees();
-	public Employee findEmployee(int employeeId);
-	public int addEmployee(Employee employee);
-	public String deleteEmployee(int employeeId);
+public interface EmployeeDAO extends JpaRepository<Employee,Integer>{
+	
 }

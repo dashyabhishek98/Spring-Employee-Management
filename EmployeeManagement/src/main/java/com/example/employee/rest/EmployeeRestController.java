@@ -1,6 +1,7 @@
 package com.example.employee.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,23 +28,24 @@ public class EmployeeRestController {
 	@GetMapping("/employees")
 	public List<Employee> getEmployee() { 
 		System.out.println("1");
-		return employeeDao.getEmployees();
+		return employeeDao.findAll();
 	}
 	
 	@GetMapping("/employee/{employeeId}")
-	public Employee findEmployee(@PathVariable("employeeId") int Id){
+	public Optional<Employee> findEmployee(@PathVariable("employeeId") int Id){
 		System.out.println(Id);
-		return employeeDao.findEmployee(Id);
+		return employeeDao.findById(Id);
 	}
 	@Transactional
 	@PostMapping("/employee/add")
-	public int addEmployee(@RequestBody Employee emp) {
+	public Employee addEmployee(@RequestBody Employee emp) {
 		System.out.println(emp);
-		return employeeDao.addEmployee(emp);
+		return employeeDao.save(emp);
 	}
 	
-	@DeleteMapping("/employee/delete/{employeeId}")
-	public String deleteEmployee(@PathVariable int employeeId) {
-		return employeeDao.deleteEmployee(employeeId);
+	@DeleteMapping("/employee/delete")
+	public String deleteEmployee(@RequestBody Employee employee) {
+		employeeDao.delete(employee);
+		return "Deleted";
 	}
 }
