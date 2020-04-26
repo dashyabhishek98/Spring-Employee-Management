@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.employee.dao.EmployeeDAO;
 import com.example.employee.entity.Employee;
@@ -26,15 +27,36 @@ public class EmployeeRestController {
 	}
 	
 	@GetMapping("/employees")
-	public List<Employee> getEmployee() { 
-		System.out.println("1");
-		return employeeDao.findAll();
+	public ModelAndView getEmployee() { 
+		System.out.println("/employees");
+		List<Employee> employee = employeeDao.findAll();
+		System.out.println(employee);
+		ModelAndView model = new ModelAndView(); 
+		model.addObject("employee", employee);
+		model.setViewName("index");
+		return model;
 	}
 	
-	@GetMapping("/employee/{employeeId}")
-	public Optional<Employee> findEmployee(@PathVariable("employeeId") int Id){
+	@GetMapping("/showFormForSearch")
+	public ModelAndView showFormForAdd() {
+		System.out.println("/showFormForSearch");
+		ModelAndView model = new ModelAndView();
+		model.setViewName("searchEmployee");
+		return model;
+	}
+	
+	@PostMapping("/employee")
+	public ModelAndView findEmployee(@RequestParam("employeeId") int Id){
+		System.out.println("/employee/");
 		System.out.println(Id);
-		return employeeDao.findById(Id);
+		ModelAndView model = new ModelAndView();
+		Optional<Employee> employee= employeeDao.findById(Id);
+		System.out.println(employee);
+		Employee emp = 	employee.get();
+		System.out.println(emp);
+		model.addObject("employee", emp);
+		model.setViewName("searchedEmployee");
+		return model;
 	}
 	@Transactional
 	@PostMapping("/employee/add")
