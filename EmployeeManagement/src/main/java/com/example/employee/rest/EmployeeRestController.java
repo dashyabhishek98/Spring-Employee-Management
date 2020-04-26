@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.employee.dao.EmployeeDAO;
+import com.example.employee.dao.EmployeeDAOHibernateImpl;
 import com.example.employee.entity.Employee;
 
 @RestController
@@ -20,7 +21,7 @@ public class EmployeeRestController {
 	private EmployeeDAO employeeDao;
 	
 	@Autowired
-	public EmployeeRestController(EmployeeDAO employeeDao) {
+	public EmployeeRestController(EmployeeDAOHibernateImpl employeeDao) {
 		this.employeeDao = employeeDao;
 	}
 	

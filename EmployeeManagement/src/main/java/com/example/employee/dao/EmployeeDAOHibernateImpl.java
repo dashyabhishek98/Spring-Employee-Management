@@ -27,6 +27,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO{
 	@Override
 	@Transactional
 	public List<Employee> getEmployees() {
+		System.out.println("get Employees()");
 		EntityManager currentSession = entityManager.createEntityManager();
 		TypedQuery<Employee> theQuery = currentSession.createQuery("from Employee",Employee.class);
 		List<Employee> employees  = theQuery.getResultList();
